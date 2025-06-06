@@ -36,6 +36,7 @@ const bucket = storage.bucket(bucketName);
 
 const app = new OpenAPIHono();
 const port = process.env.PORT || 8787;
+const baseUrl = process.env.BASE_URL || `http://localhost:${port}`;
 
 // Middleware
 app.use("*", logger());
@@ -250,9 +251,6 @@ app.openapi(deleteUploadRoute, async (c) => {
 });
 
 // --- OpenAPI Documentation
-
-
-const baseUrl = process.env.BASE_URL || `http://localhost:${port}`;
 
 app.doc('/doc', {
   openapi: '3.0.0',
