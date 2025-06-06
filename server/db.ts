@@ -1,16 +1,16 @@
-import { Pool } from 'pg';
-import { drizzle } from 'drizzle-orm/node-postgres';
-import * as schema from '../shared/schema';
+import admin from 'firebase-admin';
+import { getFirestore } from 'firebase-admin/firestore';
+import type { ServiceAccount } from 'firebase-admin';
+import serviceAccountJson from '../portofolio-a0a0b-firebase-adminsdk-fbsvc-81638f3220.json' assert { type: "json" };
 
-if (!process.env.DATABASE_URL) {
-  throw new Error(
-    "DATABASE_URL must be set. Did you forget to provision a database?",
-  );
+const serviceAccount = serviceAccountJson as ServiceAccount;
+
+if (!admin.apps.length) {
+  admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount)
+  });
 }
 
-export const pool = new Pool({ 
-  connectionString: process.env.DATABASE_URL,
-  ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false
-});
+const db = getFirestore();
 
-export const db = drizzle(pool, { schema });
+export { db };
