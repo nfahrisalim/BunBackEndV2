@@ -1,32 +1,55 @@
-import { Hono } from 'hono';
+import { OpenAPIHono, createRoute } from '@hono/zod-openapi';
 import { blogStorage } from '../storage';
-import { validateBody, validateQuery, validateIdParam, createBlogSchema, updateBlogSchema, statusQuerySchema } from '../middleware/validation';
-import type { ApiResponse } from '../types';
-import type { Blog } from '../../shared/schema';
+import { BlogSchema, CreateBlogSchema, UpdateBlogSchema, ApiResponseSchema, ErrorResponseSchema, StatusQuerySchema, IdParamSchema } from '../openapi';
+import { z } from 'zod';
 
-const blogs = new Hono();
+const blogs = new OpenAPIHono();
 
 // GET /blogs - Get all blogs with optional status filter
-blogs.get('/', validateQuery(statusQuerySchema), async (c) => {
+const getBlogsRoute = createRoute({
+  method: 'get',
+  path: '/',
+  request: {
+    query: StatusQuerySchema
+  },
+  responses: {
+    200: {
+      content: {
+        'application/json': {
+          schema: ApiResponseSchema(z.array(BlogSchema))
+        }
+      },
+      description: 'List of blogs retrieved successfully'
+    },
+    500: {
+      content: {
+        'application/json': {
+          schema: ErrorResponseSchema
+        }
+      },
+      description: 'Server error'
+    }
+  },
+  tags: ['Blogs']
+});
+
+blogs.openapi(getBlogsRoute, async (c) => {
   try {
-    const { status } = c.get('validatedQuery');
+    const { status } = c.req.valid('query');
     const blogList = await blogStorage.getAllBlogs(status);
     
-    const response: ApiResponse<Blog[]> = {
+    return c.json({
       success: true,
       data: blogList,
       message: `Retrieved ${blogList.length} blogs${status ? ` with status: ${status}` : ''}`
-    };
-    
-    return c.json(response);
+    });
   } catch (error) {
     console.error('Error fetching blogs:', error);
-    const response: ApiResponse<null> = {
+    return c.json({
       success: false,
       data: null,
       error: 'Failed to fetch blogs. Please try again later.'
-    };
-    return c.json(response, 500);
+    }, 500);
   }
 });
 
