@@ -250,6 +250,11 @@ app.openapi(deleteUploadRoute, async (c) => {
 });
 
 // --- OpenAPI Documentation
+
+const port = process.env.PORT || 8787;
+
+const baseUrl = process.env.BASE_URL || `http://localhost:${port}`;
+
 app.doc('/doc', {
   openapi: '3.0.0',
   info: {
@@ -259,8 +264,8 @@ app.doc('/doc', {
   },
   servers: [
     {
-      url: `http://localhost:${port}`,
-      description: 'Server pengembangan'
+      url: baseUrl,  
+      description: 'URL server aktif'
     }
   ]
 });
