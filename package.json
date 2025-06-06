@@ -9,10 +9,15 @@
     "typescript": "^5.0.0"
   },
   "dependencies": {
+    "@hono/node-server": "^1.14.3",
+    "@hono/swagger-ui": "^0.5.1",
+    "@hono/zod-openapi": "^0.19.8",
+    "@types/multer": "^1.4.12",
     "@types/pg": "^8.15.4",
     "drizzle-kit": "^0.31.1",
     "drizzle-orm": "^0.44.2",
     "hono": "^4.7.11",
+    "multer": "^2.0.1",
     "pg": "^8.16.0",
     "zod": "^3.25.53"
   }
