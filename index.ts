@@ -57,7 +57,7 @@ app.onError((err, c) => {
 });
 
 // Start server
-const port = process.env.PORT || 8000;
+const port = process.env.PORT || 5000;
 
 console.log(`🚀 Starting Blog & Projects API server on port ${port}...`);
 
