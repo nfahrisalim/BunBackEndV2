@@ -36,7 +36,8 @@ const bucket = storage.bucket(bucketName);
 
 const app = new OpenAPIHono();
 const port = process.env.PORT || 8787;
-const baseUrl = process.env.BASE_URL || `http://localhost:${port}`;
+// const baseUrl = process.env.BASE_URL || `http://localhost:${port}`;
+const baseUrl = process.env.BASE_URL || `https://bunbackendv2-production.up.railway.app`;
 
 // Middleware
 app.use("*", logger());
