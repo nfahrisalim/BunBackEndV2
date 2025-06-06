@@ -1,0 +1,18 @@
+{
+  "build": {
+    "env": {
+      "GOOGLE_APPLICATION_CREDENTIALS": "bwai-460805-dc1ae9dcb44b.json"
+    }
+  },
+  "functions": {
+    "api/index.ts": {
+      "runtime": "edge"
+    }
+  },
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "api/index.ts"
+    }
+  ]
+}

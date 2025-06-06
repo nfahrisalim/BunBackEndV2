@@ -41,11 +41,16 @@ const port = process.env.PORT || 8787;
 app.use("*", logger());
 app.use("*", prettyJSON());
 app.use("*", cors({
-  origin: ['http://localhost:3000', 'http://localhost:5000'],
+  origin: (origin) => {
+    // Izinkan semua origin jika tidak ada (misalnya di Swagger)
+    if (!origin) return true;
+    return true; // Bisa ganti dengan whitelist di production
+  },
   allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowHeaders: ['Content-Type', 'Authorization'],
   credentials: true
 }));
+
 
 const ApiResponseSchema = (schema: z.ZodTypeAny) =>
   z.object({
