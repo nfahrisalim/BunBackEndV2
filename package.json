@@ -8,6 +8,9 @@
   "peerDependencies": {
     "typescript": "^5.0.0"
   },
+  "scripts": {
+  "build": "bun build index.ts --target=node --outdir dist"
+  },
   "dependencies": {
     "@hono/node-server": "^1.14.3",
     "@hono/swagger-ui": "^0.5.1",

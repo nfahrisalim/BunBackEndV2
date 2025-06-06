@@ -1,18 +1,18 @@
 {
-  "build": {
-    "env": {
-      "GOOGLE_APPLICATION_CREDENTIALS": "bwai-460805-dc1ae9dcb44b.json"
+  "version": 2,
+  "builds": [
+    {
+      "src": "dist/index.js",
+      "use": "@vercel/node"
     }
-  },
-  "functions": {
-    "api/index.ts": {
-      "runtime": "edge"
-    }
-  },
+  ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "api/index.ts"
+      "dest": "dist/index.js"
     }
-  ]
+  ],
+  "buildCommand": "bun install && bun run build",
+  "installCommand": "bun install",
+  "outputDirectory": "dist"
 }
