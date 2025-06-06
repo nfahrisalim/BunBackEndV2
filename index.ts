@@ -282,3 +282,7 @@ export default {
   fetch: app.fetch,
   hostname: '0.0.0.0'
 };
+
+console.log('BASE_URL environment variable:', process.env.BASE_URL);
+console.log('Computed baseUrl:', baseUrl);
+
