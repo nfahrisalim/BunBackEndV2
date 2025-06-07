@@ -55,8 +55,12 @@ blogs.openapi(getBlogsRoute, async (c) => {
 });
 
 // GET /blogs/:id
-const IdParamSchema = z.object({
-  id: z.string().min(1, "ID is required"), // ubah dari regex ke string biasa
+const getBlogByIdRoute = createRoute({
+  method: 'get',
+  path: '/{id}',
+  request: { params: IdParamSchema },
+  responses: { /* ... responses ... */ },
+  tags: ['Blogs']
 });
 blogs.openapi(getBlogByIdRoute, async (c) => {
     try {
