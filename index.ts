@@ -78,6 +78,41 @@ app.get('/', (c) => {
   });
 });
 
+const healthCheckRoute = createRoute({
+  method: 'get',
+  path: '/api/health',
+  responses: {
+    200: {
+      description: 'Status kesehatan API',
+      content: {
+        'application/json': {
+          schema: z.object({
+            success: z.literal(true),
+            data: z.object({
+              status: z.literal('healthy'),
+              timestamp: z.string()
+            }),
+            message: z.string()
+          })
+        }
+      }
+    }
+  },
+  tags: ['Health']
+});
+
+app.openapi(healthCheckRoute, async (c) => {
+  return c.json({
+    success: true,
+    data: {
+      status: 'healthy',
+      timestamp: new Date().toISOString()
+    },
+    message: 'Server dalam kondisi normal'
+  });
+});
+
+
 app.route('/api/blogs', blogs);
 app.route('/api/projects', projects);
 
