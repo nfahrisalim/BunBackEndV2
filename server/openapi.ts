@@ -105,12 +105,15 @@ export const StatusQuerySchema = z.object({
   status: z.enum(['draft', 'published']).optional().openapi({ example: 'published' })
 });
 
+import { z } from "zod";
+
 export const IdParamSchema = z.object({
-  id: z.string().regex(/^\d+$/).transform(Number).openapi({ 
+  id: z.string().min(1).openapi({
     param: { name: 'id', in: 'path' },
-    example: '1' 
-  })
+    example: 'ajL8SflPjZum2GcjBq2e',
+  }),
 });
+
 
 // Upload response schema
 export const UploadResponseSchema = z.object({
