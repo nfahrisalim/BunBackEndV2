@@ -38,6 +38,8 @@ const app = new OpenAPIHono();
 const port = process.env.PORT || 8787;
 // const baseUrl = process.env.BASE_URL || `http://localhost:${port}`;
 const baseUrl = process.env.BASE_URL || `https://bunbackendv2-production.up.railway.app`;
+const imageUrl = `https://storage.googleapis.com/janda/${filename}`;
+
 
 // Middleware
 app.use("*", logger());
@@ -201,49 +203,30 @@ const uploadRoute = createRoute({
   tags: ['Upload']
 });
 
-app.openapi(uploadRoute, async (c) => {
-  try {
-    const body = await c.req.parseBody();
-    const file = body['image'] as File;
+app.get('/api/upload/:filename', async (c) => {
+  const { filename } = c.req.param();
 
-    if (!file) {
-      return c.json({ success: false, error: 'Tidak ada file gambar yang diberikan' }, 400);
-    }
+  const fileRef = bucket.file(`janda/${filename}`);
 
-    if (file.size > 5 * 1024 * 1024) {
-      return c.json({ success: false, error: 'Ukuran file harus kurang dari 5MB' }, 400);
-    }
-
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-    const filename = `image-${uniqueSuffix}.${file.name.split('.').pop()}`;
-
-    const arrayBuffer = await file.arrayBuffer();
-    const buffer = Buffer.from(arrayBuffer);
-
-    const fileRef = bucket.file(filename);
-
-    await fileRef.save(buffer, {
-      contentType: file.type,
-      resumable: false,
-      // hapus 'public: true'
-      metadata: {
-        cacheControl: 'public, max-age=31536000'
-      }
-    });
-
-
-    const imageUrl = `https://storage.googleapis.com/${bucket.name}/${filename}`;
-
-    return c.json({
-      success: true,
-      data: { filename, url: imageUrl },
-      message: 'Gambar berhasil diunggah ke Google Cloud Storage'
-    }, 201);
-  } catch (err) {
-    console.error('Gagal mengunggah gambar ke GCS:', err);
-    return c.json({ success: false, error: 'Gagal mengunggah gambar ke GCS' }, 500);
+  const [exists] = await fileRef.exists();
+  if (!exists) {
+    return c.json({ error: 'File tidak ditemukan' }, 404);
   }
+
+  const [buffer] = await fileRef.download();
+  const ext = filename.split('.').pop();
+  const contentType = ext === 'png' ? 'image/png'
+                    : ext === 'jpg' || ext === 'jpeg' ? 'image/jpeg'
+                    : ext === 'webp' ? 'image/webp'
+                    : 'application/octet-stream';
+
+  return new Response(buffer, {
+    headers: {
+      'Content-Type': contentType,
+    },
+  });
 });
+
 
 // --- DELETE /api/upload/:filename
 const FilenameParamSchema = z.object({
