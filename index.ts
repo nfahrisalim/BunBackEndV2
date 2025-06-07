@@ -146,10 +146,17 @@ app.openapi(getUploadsRoute, async (c) => {
     // List file dari GCS bucket
     const [files] = await bucket.getFiles();
 
-    const fileData = files.map(file => ({
-      filename: file.name,
-      url: `https://storage.googleapis.com/${bucket.name}/${file.name}`
-    }));
+    const fileData = await Promise.all(
+      files.map(async (file) => {
+        const [metadata] = await file.getMetadata();
+        return {
+          filename: file.name,
+          url: `https://storage.googleapis.com/${bucket.name}/${file.name}`,
+          uploadDate: metadata.timeCreated, // ISO 8601 string
+        };
+      })
+    );
+
 
     return c.json({ success: true, data: fileData, message: `Berhasil mengambil ${fileData.length} gambar` });
   } catch (err) {
