@@ -43,11 +43,7 @@ const baseUrl = process.env.BASE_URL || `https://bunbackendv2-production.up.rail
 app.use("*", logger());
 app.use("*", prettyJSON());
 app.use("*", cors({
-  origin: (origin) => {
-    // Izinkan semua origin jika tidak ada (misalnya di Swagger)
-    if (!origin) return true;
-    return true; // Bisa ganti dengan whitelist di production
-  },
+  origin: "http://localhost:5000",
   allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowHeaders: ['Content-Type', 'Authorization'],
   credentials: true
