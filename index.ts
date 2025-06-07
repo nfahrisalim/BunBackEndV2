@@ -270,24 +270,33 @@ const deleteUploadRoute = createRoute({
   tags: ['Upload']
 });
 
-app.openapi(deleteUploadRoute, async (c) => {
-  try {
-    const { filename } = c.req.valid('param');
-    const fileRef = bucket.file(filename);
+const deleteUploadRoute = app.delete(
+  '/api/gallery/:filename',
+  zValidator('param', z.object({
+    filename: z.string().refine((val) => !val.includes('..') && !val.includes('/'), {
+      message: "Invalid filename",
+    }),
+  })),
+  async (c) => {
+    try {
+      const { filename } = c.req.valid('param');
+      const objectPath = `janda/${filename}`;
+      const fileRef = bucket.file(objectPath);
 
-    // Cek apakah file ada
-    const [exists] = await fileRef.exists();
-    if (!exists) {
-      return c.json({ success: false, error: `File ${filename} tidak ditemukan` }, 404);
+      // Cek apakah file ada
+      const [exists] = await fileRef.exists();
+      if (!exists) {
+        return c.json({ success: false, error: `File ${filename} tidak ditemukan` }, 404);
+      }
+
+      await fileRef.delete();
+      return c.json({ success: true, message: 'Gambar berhasil dihapus dari Google Cloud Storage' });
+    } catch (err) {
+      console.error('Gagal menghapus gambar dari GCS:', err);
+      return c.json({ success: false, error: 'Gagal menghapus gambar' }, 500);
     }
-
-    await fileRef.delete();
-    return c.json({ success: true, message: 'Gambar berhasil dihapus dari Google Cloud Storage' });
-  } catch (err) {
-    console.error('Gagal menghapus gambar dari GCS:', err);
-    return c.json({ success: false, error: 'Gagal menghapus gambar' }, 500);
   }
-});
+);
 
 // --- OpenAPI Documentation
 
