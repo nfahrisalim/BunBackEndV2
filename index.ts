@@ -43,7 +43,7 @@ const baseUrl = process.env.BASE_URL || `https://bunbackendv2-production.up.rail
 app.use("*", logger());
 app.use("*", prettyJSON());
 app.use("*", cors({
-  origin: "https://personal-dissent.vercel.app/",
+  origin: "https://personal-dissent.vercel.app",
   allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowHeaders: ['Content-Type', 'Authorization'],
   credentials: true
