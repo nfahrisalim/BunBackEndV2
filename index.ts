@@ -279,7 +279,8 @@ app.openapi(deleteUploadRoute, async (c) => {
   }
 
   try {
-    const fileRef = bucket.file(`janda/${filename}`); // pastikan folder path sesuai
+    const fileRef = bucket.file(filename);
+   // pastikan folder path sesuai
 
     const [exists] = await fileRef.exists();
     if (!exists) {
