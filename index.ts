@@ -250,7 +250,7 @@ const FilenameParamSchema = z.object({
   filename: z.string().min(1)
 });
 
-const deleteUploadRoute = createRoute({
+const deleteUploadRouteDef = createRoute({
   method: 'delete',
   path: '/api/upload/{filename}',
   request: {
@@ -270,17 +270,15 @@ const deleteUploadRoute = createRoute({
   tags: ['Upload']
 });
 
-app.openapi(deleteUploadRoute, async (c) => {
+app.openapi(deleteUploadRouteDef, async (c) => {
   const { filename } = c.req.valid('param');
 
-  // Validasi sederhana nama file (hindari path traversal dll)
   if (!/^[a-zA-Z0-9_.-]+\.(jpg|jpeg|png|webp)$/i.test(filename)) {
     return c.json({ success: false, error: 'Nama file tidak valid' }, 400);
   }
 
   try {
     const fileRef = bucket.file(filename);
-   // pastikan folder path sesuai
 
     const [exists] = await fileRef.exists();
     if (!exists) {
@@ -298,6 +296,7 @@ app.openapi(deleteUploadRoute, async (c) => {
     return c.json({ success: false, error: 'Gagal menghapus gambar' }, 500);
   }
 });
+
 
 // --- OpenAPI Documentation
 
