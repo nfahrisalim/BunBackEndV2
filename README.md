@@ -107,7 +107,7 @@ Build menggunakan Bun dan Docker.
 
 ## 👨‍💻 Kontributor
 
-- Built by [Naufal (you)](#)
+- Built by [Naufal Fahri Salim](https://github.com/nfahrisalim)
 - Powered by: Bun + Firebase + GCP + Hono
 
 ---
