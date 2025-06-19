@@ -7,7 +7,6 @@ RESTful API untuk mengelola **blog**, **proyek**, dan **unggahan gambar**, diban
 
 [https://bunbackendv2-production.up.railway.app](https://bunbackendv2-production.up.railway.app)
 
-```
 
 ## 📦 Fitur Utama
 
@@ -112,9 +111,3 @@ Build menggunakan Bun dan Docker.
 - Powered by: Bun + Firebase + GCP + Hono
 
 ---
-
-## 📝 Lisensi
-
-Proyek ini menggunakan lisensi MIT. Silakan gunakan dan kembangkan sesuai kebutuhan.
-```
-
