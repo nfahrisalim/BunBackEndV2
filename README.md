@@ -1,15 +1,9 @@
-Berikut adalah contoh **README.md** dalam format Markdown yang sesuai dengan API kamu:
-
----
-
-```markdown
 # Blogging & Project Management API
 
 RESTful API untuk mengelola **blog**, **proyek**, dan **unggahan gambar**, dibangun menggunakan [Hono](https://hono.dev/) dan [Firebase Firestore](https://firebase.google.com/docs/firestore), serta penyimpanan gambar menggunakan **Google Cloud Storage**.
 
 ## 🔗 API Base URL
 
-```
 
 [https://bunbackendv2-production.up.railway.app](https://bunbackendv2-production.up.railway.app)
 
