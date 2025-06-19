@@ -1,113 +1,121 @@
-# Blogging & Project Management API
+# 🧾 Blogging & Project Management API
 
-RESTful API untuk mengelola **blog**, **proyek**, dan **unggahan gambar**, dibangun menggunakan [Hono](https://hono.dev/) dan [Firebase Firestore](https://firebase.google.com/docs/firestore), serta penyimpanan gambar menggunakan **Google Cloud Storage**.
+A RESTful API for managing **blogs**, **projects**, and **image uploads**, built using [Hono](https://hono.dev/) and [Firebase Firestore](https://firebase.google.com/docs/firestore), with image storage powered by **Google Cloud Storage**.
 
 ## 🔗 API Base URL
 
-
 [https://bunbackendv2-production.up.railway.app](https://bunbackendv2-production.up.railway.app)
 
+---
 
-## 📦 Fitur Utama
+## 📦 Main Features
 
-- ✅ **CRUD Blog**: Buat, ambil, update, dan hapus entri blog.
-- ✅ **CRUD Proyek**: Kelola proyek lengkap dengan tautan dan dokumentasi.
-- ✅ **Upload Gambar**: Unggah dan hapus gambar menggunakan Google Cloud.
-- ✅ **Health Check**: Endpoint status API.
-
-## 🧠 Teknologi
-
-- [Bun](https://bun.sh) + [Hono](https://hono.dev) (REST Framework)
-- [Firebase Firestore](https://firebase.google.com/docs/firestore) untuk database NoSQL
-- [Google Cloud Storage](https://cloud.google.com/storage) untuk file upload
-- Railway untuk hosting dan deployment
+* ✅ **Blog CRUD** – Create, retrieve, update, and delete blog entries
+* ✅ **Project CRUD** – Manage projects with links and documentation
+* ✅ **Image Upload** – Upload and delete images via Google Cloud Storage
+* ✅ **Health Check** – Simple API status endpoint
 
 ---
 
-## 🛠️ Endpoints
+## 🧠 Tech Stack
+
+* ⚡ [Bun](https://bun.sh) + [Hono](https://hono.dev) – Lightweight and fast REST framework
+* 🔥 [Firebase Firestore](https://firebase.google.com/docs/firestore) – NoSQL database
+* ☁️ [Google Cloud Storage](https://cloud.google.com/storage) – Image file storage
+* 🚉 Hosted and deployed with [Railway](https://railway.app)
+
+---
+
+## 🛠️ API Endpoints
 
 ### 📍 Health Check
-- **GET** `/api/health`  
-  Cek apakah server berjalan normal.
+
+* `GET /api/health`
+  Check if the server is running properly.
 
 ---
 
-### 📝 Blog
+### 📝 Blog Endpoints
 
-- **GET** `/api/blogs?status=draft|published`  
-  Ambil daftar blog berdasarkan status.
+* `GET /api/blogs?status=draft|published`
+  Get list of blogs filtered by status.
 
-- **POST** `/api/blogs`  
-  Buat blog baru.
+* `POST /api/blogs`
+  Create a new blog.
 
-- **GET** `/api/blogs/{id}`  
-  Ambil detail blog berdasarkan ID.
+* `GET /api/blogs/{id}`
+  Get a specific blog by its ID.
 
-- **PUT** `/api/blogs/{id}`  
-  Perbarui blog.
+* `PUT /api/blogs/{id}`
+  Update an existing blog.
 
-- **DELETE** `/api/blogs/{id}`  
-  Hapus blog.
-
----
-
-### 💼 Projects
-
-- **GET** `/api/projects?status=draft|published`  
-  Ambil semua proyek.
-
-- **POST** `/api/projects`  
-  Tambah proyek baru.
-
-- **GET** `/api/projects/{id}`  
-  Lihat detail proyek.
-
-- **PUT** `/api/projects/{id}`  
-  Update data proyek.
-
-- **DELETE** `/api/projects/{id}`  
-  Hapus proyek.
+* `DELETE /api/blogs/{id}`
+  Delete a blog.
 
 ---
 
-### 🖼️ Uploads
+### 💼 Project Endpoints
 
-- **GET** `/api/upload`  
-  Ambil semua gambar yang diunggah.
+* `GET /api/projects?status=draft|published`
+  Get all projects filtered by status.
 
-- **POST** `/api/upload`  
-  Unggah file gambar (form-data, field: `image`).
+* `POST /api/projects`
+  Add a new project.
 
-- **DELETE** `/api/upload/{filename}`  
-  Hapus gambar berdasarkan filename.
+* `GET /api/projects/{id}`
+  Get project details by ID.
+
+* `PUT /api/projects/{id}`
+  Update a project.
+
+* `DELETE /api/projects/{id}`
+  Delete a project.
 
 ---
 
-## 🔒 Status & Validasi
+### 🖼️ Image Upload Endpoints
 
-- Beberapa endpoint mendukung `status: draft | published`.
-- Validasi dilakukan untuk string kosong, URL format, dan file upload yang sah.
+* `GET /api/upload`
+  Get all uploaded images.
+
+* `POST /api/upload`
+  Upload an image (form-data field: `image`).
+
+* `DELETE /api/upload/{filename}`
+  Delete an image by its filename.
 
 ---
 
-## 📘 Dokumentasi OpenAPI
+## 🔒 Status & Validation
 
-OpenAPI Specification tersedia dan bisa digunakan dengan Swagger UI:
-- [Lihat dokumentasi Swagger](https://editor.swagger.io/)
-- Import dari file `openapi.json` jika kamu memilikinya.
+* Endpoints support filtering by `status: draft | published`.
+* Validation is implemented for:
+
+  * Empty strings
+  * URL formatting
+  * Valid image file uploads
+
+---
+
+## 📘 OpenAPI Documentation
+
+You can view the API specification using Swagger UI:
+
+* [Open in Swagger Editor](https://editor.swagger.io/)
+* Or import from a local `openapi.json` file.
 
 ---
 
 ## 🚀 Deployment
 
-Project ini di-deploy menggunakan [Railway](https://railway.app/).  
-Build menggunakan Bun dan Docker.
+This project is deployed via [Railway](https://railway.app).
+It is built using **Bun** and **Docker** for fast and lightweight deployment.
 
 ---
 
-## 👨‍💻 Kontributor
+## 👨‍💻 Contributors
 
-- Built by [Naufal Fahri Salim](https://github.com/nfahrisalim)
-- Powered by: Bun + Firebase + GCP + Hono
+* Developed by [Naufal Fahri Salim](https://github.com/nfahrisalim)
+* Powered by: **Bun**, **Firebase**, **Google Cloud Platform**, and **Hono**
 
 ---
