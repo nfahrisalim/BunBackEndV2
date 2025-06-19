@@ -304,7 +304,7 @@ app.doc('/doc', {
   openapi: '3.0.0',
   info: {
     version: '1.0.0',
-    title: 'Hono & Firebase API',
+    title: 'Blogging and Project Management API',
     description: 'REST API untuk mengelola blog dan proyek, menggunakan Hono dan Firebase Firestore.'
   },
   servers: [
